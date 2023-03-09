@@ -17,6 +17,7 @@ class _HomePageState extends State<HomePage> {
   late RecorderService recorder;
 
   bool rec = false;
+
   Dio dio = Dio();
   late File audioFile;
   @override
