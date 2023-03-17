@@ -1,7 +1,7 @@
+import 'dart:async';
 import 'dart:io';
 
-import 'package:flutter_sound_lite/flutter_sound.dart';
-import 'package:flutter_sound_lite/public/flutter_sound_recorder.dart';
+import 'package:flutter_sound/flutter_sound.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class RecorderService {
@@ -18,17 +18,19 @@ class RecorderService {
   }
 
   Future startRecord() async {
-    await recorder.startRecorder(
+    recorder.startRecorder(
       toFile: 'audio',
       sampleRate: 16000,
       numChannels: 1,
-      bitRate: 256,
+      bitRate: 5333,
     );
   }
 
   Future<File> stopRecorder() async {
     final filePath = await recorder.stopRecorder();
+
     final file = File(filePath!);
+    print(file.uri);
     return file;
   }
 

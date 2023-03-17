@@ -1,8 +1,8 @@
 import 'dart:io';
 
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
+import '../../core/service/http_service.dart';
 import '../../core/service/player.dart';
 import '../../core/service/recorder.dart';
 
@@ -15,13 +15,14 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   late RecorderService recorder;
+  HttpSerivce http = HttpSerivce();
+  late bool rec;
+  String test = "";
 
-  bool rec = false;
-
-  Dio dio = Dio();
   late File audioFile;
   @override
   void initState() {
+    rec = false;
     recorder = RecorderService();
     recorder.initRecorder();
     super.initState();
@@ -51,13 +52,11 @@ class _HomePageState extends State<HomePage> {
               ElevatedButton(
                   onPressed: () {
                     Navigator.of(context).pop();
-                    dio
-                        .post(
-                            'https://apraxia-api-vosk-xig6ce3oqa-uc.a.run.app/process_v1/lesson_p_3',
-                            options: Options(contentType: 'application/json'),
-                            data: {audioFile})
-                        .then((value) => print(value))
-                        .onError((error, stackTrace) => print(stackTrace));
+                    try {
+                      http.uploadAudio(audioFile);
+                    } catch (e) {
+                      print(e);
+                    }
                   },
                   child: const Text('Enviar para o Back'))
             ],
@@ -73,19 +72,21 @@ class _HomePageState extends State<HomePage> {
           child: ElevatedButton(
               onPressed: () {
                 print('Presionado');
-                rec
-                    ? recorder.startRecord()
+                rec == false
+                    ? {recorder.startRecord()}
                     : {
                         recorder.stopRecorder().then((value) {
                           audioFile = value;
                         }),
                         _dialog(context)
                       };
+
                 setState(() {
                   rec = !rec;
                 });
               },
-              child: Icon(rec ? Icons.record_voice_over : Icons.stop))),
+              child:
+                  Icon(rec == false ? Icons.record_voice_over : Icons.stop))),
     );
   }
 }

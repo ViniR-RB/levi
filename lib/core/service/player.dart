@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:flutter_sound_lite/flutter_sound.dart';
+import 'package:flutter_sound/flutter_sound.dart';
 
 class PlayerSerivce {
   FlutterSoundPlayer player = FlutterSoundPlayer();
