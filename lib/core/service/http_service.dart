@@ -1,8 +1,9 @@
 import 'dart:io';
 import 'dart:typed_data';
 
-import 'package:captura/core/constants.dart';
 import 'package:http/http.dart' as http;
+
+import '../my_constants.dart';
 
 class HttpService {
   HttpService();
